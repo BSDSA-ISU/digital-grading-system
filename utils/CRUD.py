@@ -1,4 +1,5 @@
 import sqlite3
+from tabulate import tabulate
 
 def ShowAll():
     con = sqlite3.connect("students.db")
@@ -36,8 +37,18 @@ def Insert(program, age, study_hours, attenndance_rate, quiz_score, midterm_scor
     conn.commit()
     conn.close()
 
-def delete():
-    pass
+def ShowCol():
+
+    conn = sqlite3.connect("students.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM students;")
+    rows = cursor.fetchall()
+
+    headers = [desc[0] for desc in cursor.description]
+
+    print(tabulate(rows, headers=headers, tablefmt="grid"))
 
 
-ShowAll()
+
+ShowCol()
