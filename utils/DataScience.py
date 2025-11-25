@@ -8,10 +8,10 @@ from sklearn.metrics import r2_score
 def LinearRegressions():
 
     conn = sqlite3.connect("students.db")
-    df = pd.read_sql_query("SELECT grade, gpa FROM students", conn)
+    df = pd.read_sql_query("SELECT final_score, gpa FROM students", conn)
     conn.close()
 
-    X = df[['grade']]  # independent variable (2D array)
+    X = df[['final_score']]  # independent variable (2D array)
     Y = df['gpa']            # dependent variable
 
     model = LinearRegression()

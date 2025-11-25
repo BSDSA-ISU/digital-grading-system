@@ -1,6 +1,4 @@
-# **Title**
-
-## CCSICT Digital Grading System
+# CCSICT Digital Grading System
 
 ## **Simple Description**
 
@@ -37,9 +35,9 @@ These are the fields you stored in SQLite:
 - final_score
 - gpa
 
-Plenty of numeric variables to feed into a regression model, plenty of students to analyze, and plenty of “data science” noise to make your teacher happy.
+Plenty of numeric variables to feed into a regression model, plenty of students to analyze, and plenty of “data science” noise to make teacher happy.
 
-There. If this project doesn’t pass, your course is the problem, not the code.
+## If this project doesn’t pass, the course is the problem, not the code
 
 ```txt
                                                                            
