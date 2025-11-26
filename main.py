@@ -56,8 +56,6 @@ def generate_student_record():
     final_score = max(0, min(100, int(base + random.gauss(0, 15))))
 
     # --- REVERSED GPA SYSTEM ---
-    # 1.0 = highest
-    # >3.0 = failing
     performance = (
         quiz_score * 0.2 +
         midterm_score * 0.3 +
@@ -66,17 +64,15 @@ def generate_student_record():
         attendance_rate * 0.1
     )
 
-    # Convert performance (bigger = better) → GPA (smaller = better)
     gpa_raw = 5 - (performance / 25)
-
-    # Clamp to PH-style scale (1.0 to 5.0)
     gpa = round(max(1.0, min(5.0, gpa_raw)), 2)
 
-    # Status now depends on GPA, not the old "grade"
-    status = "Passed" if gpa <= 3.0 else "Failed"
+    # 🔥 NEW: logistic-regression-friendly label
+    # pass = 1, fail = 0
+    status = 1 if gpa <= 3.0 else 0
 
     return (
-        student_id, program, grade, status,
+        student_id, program, grade, status,   # status is now int
         age, study_hours, attendance_rate,
         quiz_score, midterm_score, final_score, gpa
     )

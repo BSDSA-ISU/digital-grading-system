@@ -2,35 +2,54 @@ import sqlite3
 from matplotlib.pyplot import plot as plt
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.metrics import r2_score
 
-def LinearRegressions():
-
+def LogisticRegressionTable():
+    # Connect to your database
     conn = sqlite3.connect("students.db")
-    df = pd.read_sql_query("SELECT final_score, gpa FROM students", conn)
-    conn.close()
 
-    X = df[['final_score']]  # independent variable (2D array)
-    Y = df['gpa']            # dependent variable
+    # Load data from SQLite
+    df = pd.read_sql_query("SELECT final_score, midterm_score, quiz_score, status FROM students", conn)
 
-    model = LinearRegression()
+    X = df[['final_score', 'midterm_score', 'quiz_score']]
+    Y = df['status']   # 1 = passed, 0 = failed
+
+    # Train model
+    model = LogisticRegression()
     model.fit(X, Y)
 
-    Y_pred = model.predict(X)
+    # Predict pass/fail probability
+    df['pass_prob'] = model.predict_proba(X)[:, 1]
+    df['pass_prob'] = df['pass_prob'].round(4)
 
-    r2 = r2_score(Y, Y_pred)
-    print(f"Linear regression model: GPA = {model.coef_[0]:.3f}*FinalScore + {model.intercept_:.3f}")
-    print(f"R-squared: {r2:.3f}")
+    # Convert to final 0/1
+    #df['pass_pred'] = (df['pass_prob'] >= 0.5).astype(int)
 
-    plt.scatter(X, Y, color='blue', label='Actual GPA')
-    plt.plot(X, Y_pred, color='red', linewidth=2, label='Regression Line')
-    plt.xlabel("Final Exam Score")
-    plt.ylabel("GPA (1 = highest)")
-    plt.title("Linear Regression: Final Score → GPA")
-    plt.legend()
-    plt.show()
+    df['pass_pred'] = model.predict(X)
 
+    print(df)
+
+    model.fit(X[Y.notnull()], Y[Y.notnull()])
+
+    # Y_pred = model.predict(X)
+
+ #   r2 = r2_score(Y, Y_pred)
+  #  print(f"R-squared: {r2}")
+
+
+    # Predict someone
+    zero_student = pd.DataFrame([{
+        'final_score': 33,
+        'midterm_score': 49,
+        'quiz_score': 49
+    }])
+
+    prob = model.predict_proba(zero_student)[0][1]
+    pred = model.predict(zero_student)[0]
+
+    print("Zero student pass probability:", round(prob, 3))
+    print("Prediction (1=Pass, 0=Fail):", pred)
 
 def age_mean():
     con = sqlite3.connect("students.db")
@@ -55,4 +74,4 @@ def AgeBar():
     plt.show()
     plt.clf()
 
-LinearRegressions()
+LogisticRegressionTable()

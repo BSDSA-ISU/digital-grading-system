@@ -2,7 +2,7 @@
 
 ## **Simple Description**
 
-A small system that stores student records using SQLite and performs basic CRUD operations. The dataset includes grades, study habits, attendance, and exam scores. **A linear regression model** is then trained to predict student GPA based on those variables. Also It can be used to visualize suffs on it using matplotlib.
+A small system that stores student records using SQLite and performs basic CRUD operations. The dataset includes grades, study habits, attendance, and exam scores. **A logistic regression model** is then trained to predict if student is passed based on those variables. Also It can be used to visualize suffs on it using matplotlib.
 
 ## **Concept**
 
