@@ -35,6 +35,7 @@ def predict_grade(model):
     X_new = np.array([[attendance_rate, quiz_score,
                        exams_score, performance_task, activities]])
     pred = model.predict(X_new)[0]
+    print()
     print(f"Predicted final grade: {pred:.5f}")
     status = "PASS" if pred >= 76 else "FAIL"
     print(f"Predicted status: {status}")
