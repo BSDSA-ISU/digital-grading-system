@@ -6,14 +6,13 @@ from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.linear_model import Lasso
-import seaborn as sns
 
 def LogisticRegressionTable():
     # Connect to your database
     conn = sqlite3.connect("students.db")
 
     # Load data from SQLite
-    df = pd.read_sql_query("SELECT final_score, midterm_score, quiz_score, status FROM students", conn)
+    df = pd.read_sql_query("SELECT final_score, attendance_rate, midterm_score, quiz_score, status FROM students", conn)
 
     X = df[['final_score', 'midterm_score', 'quiz_score']]
     Y = df['status']   # 1 = passed, 0 = failed

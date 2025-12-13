@@ -1,8 +1,9 @@
 import sqlite3
 import numpy as np
+import pandas as pd
 from sklearn.linear_model import LinearRegression
 
-# --- Load data from the database ---
+# Load your model from the DB
 def load_student_data(db_name="students.db"):
     conn = sqlite3.connect(db_name)
     cur = conn.cursor()
@@ -12,31 +13,40 @@ def load_student_data(db_name="students.db"):
     """)
     data = cur.fetchall()
     conn.close()
-    X = np.array([row[:-1] for row in data])  # features
-    y = np.array([row[-1] for row in data])   # final_grade
+    X = np.array([row[:-1] for row in data])
+    y = np.array([row[-1] for row in data])
     return X, y
 
-# --- Train linear regression model ---
 def train_model(X, y):
     model = LinearRegression()
     model.fit(X, y)
     return model
 
-# --- Interactive grade predictor ---
-def predict_grade(model):
-    print("Enter student info to predict final grade:")
-    #study_hours = float(input("Study hours per week: "))
-    attendance_rate = float(input("Attendance rate (0-100): "))
-    quiz_score = float(input("Quiz score (0-100): "))
-    exams_score = float(input("Midterm score (0-100): "))
-    performance_task = float(input("Performance task score (0-100): "))
-    activities = float(input("Activities score (0-50): "))
+# Predict for CSV rows
+def predict_csv(model, csv_path, output_path):
+    df = pd.read_csv(csv_path)
 
-    X_new = np.array([[attendance_rate, quiz_score,
-                       exams_score, performance_task, activities]])
-    pred = model.predict(X_new)[0]
-    print()
-    print(f"Predicted final grade: {pred:.5f}")
-    status = "PASS" if pred >= 76 else "FAIL"
-    print(f"Predicted status: {status}")
+    # Fill missing activities column with 0 if not present
+    if "activities" not in df.columns:
+        df["activities"] = 0
 
+    # Extract features in correct order
+    X_new = df[[
+        "attendance_rate",
+        "Total_Quiz",
+        "exams",
+        "performance",
+        "activities"
+    ]].to_numpy()
+
+    preds = model.predict(X_new)
+
+    df["grade"] = preds
+
+    df.to_csv(output_path, index=False)
+    print(f"Saved updated CSV to {output_path}")
+
+
+X, y = load_student_data()
+model = train_model(X, y)
+predict_csv(model, "grades.csv", "students_with_grades.csv")
