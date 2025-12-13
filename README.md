@@ -6,6 +6,7 @@
   - [**Dataset Contents (Columns)**](#dataset-contents-columns)
   - [How accurate it is?](#how-accurate-it-is)
   - [Example implementation](#example-implementation)
+  - [authors. aka Coffee drinker](#authors-aka-coffee-drinker)
 
 ## **Simple Description**
 
@@ -67,5 +68,10 @@ Activities score (0-50): 50
 Predicted final grade: 49.88489
 Predicted status: FAIL
 ```
+
+## authors. aka Coffee drinker
+
+- AlieeLinux
+  - ![AlieeLinux](https://avatars.githubusercontent.com/u/87587848?v=4)
 
 > If this project doesn’t pass, the course is the problem, not the code
