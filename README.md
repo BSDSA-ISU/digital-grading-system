@@ -73,5 +73,7 @@ Predicted status: FAIL
 
 - AlieeLinux
   - ![AlieeLinux](https://avatars.githubusercontent.com/u/87587848?v=4)
+- Intelsdesu(not part just his code exist on this repo)
+  - ![Ineldesu](https://avatars.githubusercontent.com/u/229100935?v=4)
 
 > If this project doesn’t pass, the course is the problem, not the code
