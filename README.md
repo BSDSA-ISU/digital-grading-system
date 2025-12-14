@@ -7,6 +7,7 @@
   - [How accurate it is?](#how-accurate-it-is)
   - [Example implementation](#example-implementation)
   - [authors. aka Coffee drinker](#authors-aka-coffee-drinker)
+  - [Special thanks to](#special-thanks-to)
 
 ## **Simple Description**
 
@@ -73,7 +74,20 @@ Predicted status: FAIL
 
 - AlieeLinux
   - ![AlieeLinux](https://avatars.githubusercontent.com/u/87587848?v=4)
-- Intelsdesu(not part just his code exist on this repo)
+- Intelsdesu(not part of this system. just his code exist on this repo)
   - ![Ineldesu](https://avatars.githubusercontent.com/u/229100935?v=4)
 
-> If this project doesn’t pass, the course is the problem, not the code
+> If this project doesn’t pass, the course is the problem, not the code.
+
+![Kyouko gif](https://media1.tenor.com/m/zvNfhGwSymAAAAAC/huh-anime.gif)
+
+## Special thanks to
+
+- **[Isabela State University](https://https://isu.edu.ph/)**
+  - who's the only reason why this system exists on the worst way possible.
+- **Mrs G Echague branch.**
+  - For giving the most amazing coffees and providing reliable wifi and other services
+- **All of my classmates.**
+  - Without them I would never reach 2nd year
+- **Our professor**
+  - Best professor in isu right now.
