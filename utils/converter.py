@@ -1,12 +1,15 @@
-items = [
-    (34, 50),
-    (150, 450),
-    (48, 60),
-    (29, 30)
-]
+import sqlite3
+import pandas as pd
 
-scaled_scores = [(got / total) * 100 for got, total in items]
-
-total_score = sum(scaled_scores)
-
-print(round(total_score, 2))
+def convert_to_csv(db_file="student_grade.db", csv_file="student_grade.csv"):
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        df = pd.read_sql("SELECT * FROM students", conn)
+        df.to_csv(csv_file, index=False)
+        print("CSV export successful.")
+    except Exception as e:
+        print("Export failed:", e)
+    finally:
+        if conn:
+            conn.close()

@@ -6,6 +6,7 @@ from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.linear_model import Lasso
+import seaborn as sns
 
 def LogisticRegressionTable():
     # Connect to your database
@@ -124,6 +125,25 @@ def lassso(db_name="students.db"):
     selected_features = pd.Series(lasso.coef_, index=predicters)
     selected_features = selected_features[selected_features != 0].sort_values(key=abs, ascending=False)
     print("\nSelected features and coefficients:\n", selected_features)
+
+def ShowCourses():
+    conn = sqlite3.connect("student_grade.db")
+    df = pd.read_sql("SELECT program FROM students", conn)
+    conn.close()
+
+    # Step 2: Count students per program
+    program_counts = df['program'].value_counts().reset_index()
+    program_counts.columns = ['program', 'count']
+
+    # Step 3: Plot with Seaborn
+    plt.figure(figsize=(8, 5))
+    sns.barplot(data=program_counts, x='program', y='count', palette="viridis")
+    plt.title("Number of Students per Program")
+    plt.ylabel("Count")
+    plt.xlabel("Program")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
 
 # Run test
 if __name__ == "__main__":

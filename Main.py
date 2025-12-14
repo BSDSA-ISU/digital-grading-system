@@ -1,115 +1,95 @@
-## Made By troy
-print("Made by troy. use this as a base. so do not copy and present it.")
+# main.py
+import os
+import sys
+from utils.DataScience import ShowCourses as showbar
+from utils.CRUD import setup_database, insert_student, delete_student, show_specific_student, ShowCol, update_student, find_students
+from utils.PredictGrade import predict_db, predict_db_tabulate
+DB_FILE = "student_grade.db"
+
+def get_student_input():
+    """Collect student data from user input."""
+
+    return {
+        "name": input("Student name: ").strip(),
+        "student_id": input("Student ID: ").strip(),
+        "program": input("Program: ").strip(),
+        "grade": float(input("Raw grade: ")),
+        "status": int(input("Status (1 = active, 0 = inactive): ")),
+        "age": int(input("Age: ")),
+        "attendance_rate": float(input("Attendance rate (0–100): ")),
+        "quiz_score": float(input("Quiz score: ")),
+        "exams_score": float(input("Exam score: ")),
+        "performance_task": float(input("Performance task score: ")),
+        "activities": float(input("Activities score (1 - 50): ")),
+        "final_grade": float(input("Final grade: ")),
+        "gpa": float(input("GPA: ")),
+    }
 
 
+def main():
+    print(f"Initializing database: {DB_FILE}")
+    conn = setup_database(DB_FILE)
+    conn.close()
 
-from pandas import read_csv
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix
-import seaborn
-import matplotlib.pyplot as plt
+    while True:
+        print("\nOptions:")
+        print("1 - Insert new student")
+        print("2 - Show all students")
+        print("2.5 - show specific student")
+        print("3 - Predict/compute from a database file")
+        print("4 - update entriez")
+        print("5 - show bar graph of courses")
+        print("6 - Deleting")
+        print("10 - exit")
 
-df = read_csv("./student_depression_dataset.csv", index_col=0)
+        choice = input("Select option: ").strip()
 
-dfclean = df.replace({"Male": 0, "Female":1,
-  "Others": -1, "Unhealthy": 0,
-  "Moderate": 1, "Healthy": 2,
-  "'More than 8 hours'": 9,
-  "'5-6 hours'": 5.5,
-  "'Less than 5 hours'": 4,
-  "'7-8 hours'": 7.5,
-   "?": 0, "Yes": 1, "No": 0,
-    "Pass": 1, "Fail": 0}).infer_objects(copy=False)
+        if choice == "1":
+            try:
+                student_data = get_student_input()
+                insert_student(DB_FILE, **student_data)
+                print("Student record inserted.")
+            except Exception as e:
+                print(f"Failed to insert record: {e}")
 
+        elif choice == "2":
+            ShowCol(DB_FILE)
 
-for i in dfclean["Degree"]:
-    print(i)
+        elif choice == "2.5":
+            partial_id = input("Enter partial student_id to search: ")
+            find_students(student_id_partial=partial_id)
 
-M=0
-F=0
-for i in dfclean["Gender"]:
-    if i == 1:
-        F+=1
-    elif i == 0:
-        M+=1
+        elif choice == "3":
+            predict_db_tabulate(db_path="student_grade.db", table_name="students", max_rows=999989)
+        
+        elif choice == "4":
+            partial_id = input("Enter partial student_id to search: ")
+            find_students(student_id_partial=partial_id)
 
+            # Step 2: Pick which student to update
+            student_id_to_update = input("Enter the full student_id of the student to update: ")
 
-X = dfclean[["Study Satisfaction" ,"Financial Stress", "Dietary Habits",
- "Age", "Sleep Duration", 
-"suicidal thoughts", "Family History of Mental Illness",
- "CGPA", "Academic Pressure"]]
-y = df["Depression"]
+            # Step 3: Update fields
+            # You can dynamically ask for fields to update or hardcode some for simplicity
+            new_grade = float(input("Enter new grade: "))
+            new_gpa = float(input("Enter new GPA: "))
 
-model = LogisticRegression()
-model.fit(X, y)
-prediction = model.predict(X)
-cmatrix = confusion_matrix(y, prediction)
+            update_student(student_id=student_id_to_update, grade=new_grade, gpa=new_gpa)
+        
+        elif choice == "5":
+            showbar()
 
-plt.figure(figsize=(8, 6))
-seaborn.heatmap(cmatrix, annot=True, fmt="d")
-plt.xlabel('Predicted Depression Status')
-plt.ylabel('Actual Depression Status')
-plt.title('Confusion Matrix: Student Depression Prediction')
-plt.show()
-plt.clf()
+        elif choice == "6":
+            # Step 2: Pick which student to update
+            student_id_to_delete = input("Enter the full student_id of the student to delete: ")
 
-#show gender bar graph
-plt.bar([1], [M], color="green", label=f"Male ({M})")
-plt.bar([2], [F], color="pink", label=f"Female ({F})")
-plt.legend()
-plt.show()
-plt.clf()
+            delete_student(student_id_partial=student_id_to_delete)
 
-
-# show different degrees
-# Course Counting
-BPHARM = (dfclean["Degree"] == "B.Pharm").sum()
-BSc = (dfclean["Degree"] == "BSc").sum()
-BA = (dfclean["Degree"] == "BA").sum()
-BCA = (dfclean["Degree"] == "BA").sum()
-MTech = (dfclean["Degree"] == "M.Tech").sum()
-MA = (dfclean["Degree"] == "MA").sum()
-C12 = (dfclean["Degree"] == "'Class 12'").sum()
-BTech = (dfclean["Degree"] == "B.Tech").sum()
-BCom = (dfclean["Degree"] == "B.Com").sum()
-MBBS = (dfclean["Degree"] == "MBBS").sum()
-BArch = (dfclean["Degree"] == "B.Arch").sum()
-MCom = (dfclean["Degree"] == "M.Com").sum()
-PhD = (dfclean["Degree"] == "PhD").sum()
-LLM = (dfclean["Degree"] == "LLM").sum()
-BHM = (dfclean["Degree"] == "BHM").sum()
-MHM = (dfclean["Degree"] == "MHM").sum()
-plt.bar([1], [BPHARM], color="green", label=f"BPHARM ({BPHARM})")
-plt.bar([2], [BSc], color="Yellow", label=f"BSc ({BSc})")
-plt.bar([3], [BA], color="Magenta", label=f"BA ({BA})")
-plt.bar([4], [BCA], color="blue", label=f"BCA ({BCA})")
-plt.bar([5], [MTech], color="Orange", label=f"Mtech ({MTech})")
-plt.bar([6], [MA], color="Red", label=f"MA ({MA})")
-plt.bar([7], [C12], color="Violet", label=f"Class 12 ({C12})")
-plt.bar([8], [BTech], color="Black", label=f"Btech ({BTech})")
-plt.bar([9], [BCom], color="Purple", label=f"Bcom ({BCom})")
-plt.bar([10], [MBBS], color="Gray", label=f"MBBS ({MBBS})")
-plt.bar([11], [BArch], label=f"B.arch ({BArch})")
-plt.bar([12], [MCom], label=f"M.Com ({MCom})")
-plt.bar([13], [PhD], label=f"Phd ({PhD})")
-plt.bar([14], [LLM], label=f"LLM ({LLM})")
-plt.bar([15], [BHM], label=f"BHM ({BHM})")
-plt.bar([16], [MHM], label=f"MHM ({MHM})")
-plt.legend()
-plt.show()
-plt.clf()
+        elif choice == "10":
+            sys.exit(0)
+        else:
+            print("Invalid option.")
 
 
-
-
-acc = accuracy_score(y, prediction)
-#acc = accuracy_score(sss, y)
-print(y)
-print("Accuracy" ,acc*100, "%")
-print("Intercept:", model.intercept_)
-print("kill Me plss")
-
-
-
-
-
+if __name__ == "__main__":
+    main()
