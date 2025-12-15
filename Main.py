@@ -73,7 +73,7 @@ def main():
             new_grade = float(input("Enter new grade: "))
             new_gpa = float(input("Enter new GPA: "))
 
-            update_student(student_id=student_id_to_update, grade=new_grade, gpa=new_gpa, performance_task=100, activities=50, )
+            update_student(student_id=student_id_to_update, grade=new_grade, gpa=new_gpa, performance_task=100, activities=50, quiz_score=100, attendance_rate=100, exams_score=100)
         
         elif choice == "5":
             showbar()
