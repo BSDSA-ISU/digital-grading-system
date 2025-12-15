@@ -1,5 +1,4 @@
 # main.py
-import os
 import sys
 from utils.DataScience import ShowCourses as showbar
 from utils.CRUD import setup_database, insert_student, delete_student, show_specific_student, ShowCol, update_student, find_students
@@ -13,16 +12,16 @@ def get_student_input():
         "name": input("Student name: ").strip(),
         "student_id": input("Student ID: ").strip(),
         "program": input("Program: ").strip(),
-        "grade": float(input("Raw grade: ")),
+        "grade": float(input("Raw grade(0 - 100): ")),
         "status": int(input("Status (1 = active, 0 = inactive): ")),
         "age": int(input("Age: ")),
         "attendance_rate": float(input("Attendance rate (0–100): ")),
-        "quiz_score": float(input("Quiz score: ")),
-        "exams_score": float(input("Exam score: ")),
-        "performance_task": float(input("Performance task score: ")),
+        "quiz_score": float(input("Quiz score 0-100: ")),
+        "exams_score": float(input("Exam score0-100: ")),
+        "performance_task": float(input("Performance task score0-100: ")),
         "activities": float(input("Activities score (1 - 50): ")),
-        "final_grade": float(input("Final grade: ")),
-        "gpa": float(input("GPA: ")),
+        "final_grade": float(input("Final grade(Optional 0 - 100): ")),
+        "gpa": float(input("GPA (optional 0 - 100): ")),
     }
 
 
@@ -74,7 +73,7 @@ def main():
             new_grade = float(input("Enter new grade: "))
             new_gpa = float(input("Enter new GPA: "))
 
-            update_student(student_id=student_id_to_update, grade=new_grade, gpa=new_gpa)
+            update_student(student_id=student_id_to_update, grade=new_grade, gpa=new_gpa, performance_task=100, activities=50, )
         
         elif choice == "5":
             showbar()
