@@ -83,7 +83,7 @@ Predicted status: FAIL
 
 ## Special thanks to
 
-- **[Isabela State University](https://https://isu.edu.ph/)**
+- **[Isabela State University](https://isu.edu.ph/)**
   - who's the only reason why this system exists on the worst way possible.
 - **Mrs G Echague branch.**
   - For giving the most amazing coffees and providing reliable wifi and other services
@@ -91,3 +91,5 @@ Predicted status: FAIL
   - Without them I would never reach 2nd year
 - **Our professor**
   - Best professor in isu right now.
+- **Van/bus Drivers**
+  - Reason I can still go home.

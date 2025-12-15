@@ -80,7 +80,7 @@ def main():
 
         elif choice == "6":
             # Step 2: Pick which student to update
-            student_id_to_delete = input("Enter the full student_id of the student to delete: ")
+            student_id_to_delete = input("Enter the partial student_id of the student to delete: ")
 
             delete_student(student_id_partial=student_id_to_delete)
 
