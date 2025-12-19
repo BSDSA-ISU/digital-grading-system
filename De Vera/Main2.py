@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Connect to SQLite
-conn = sqlite3.connect("todo.db")
+conn = sqlite3.connect("todo.dp")
 cursor = conn.cursor()
 
 # Create Table
@@ -88,7 +88,7 @@ def add_task():
     subject = SUBJECTS[choice - 1]
 
     deadline = input("Enter deadline (YYYY-MM-DD): ")
-    if not "-" in deadline or len(deadline) <= 10:
+    if not "-" in deadline or len(deadline) <= 9:
         print("Invalid date")
         sys.exit(1)
 
@@ -165,7 +165,7 @@ def menu():
 6. Visualization
 7. Exit
 """)
-        choice = input("Choose option: ")
+        choice = input("Choose option:")
 
         if choice == "1":
             add_task()
@@ -187,4 +187,3 @@ def menu():
 
 menu()
 conn.close()
-
