@@ -7,7 +7,7 @@ def convert_to_csv(db_file="student_grade.db", csv_file="student_grade.csv"):
         conn = sqlite3.connect(db_file)
         df = pd.read_sql("SELECT * FROM students", conn)
         df.to_csv(csv_file, index=False)
-        print("CSV export successful.")
+        print(f"CSV export successful and saved as {csv_file}.")
     except Exception as e:
         print("Export failed:", e)
     finally:

@@ -1,10 +1,10 @@
 # main.py
 import sys
+from utils.converter import convert_to_csv
 from utils.DataScience import ShowCourses as showbar
 from utils.CRUD import setup_database, insert_student, delete_student, show_specific_student, ShowCol, update_student, find_students
 from utils.PredictGrade import predict_db, predict_db_tabulate
 DB_FILE = "student_grade.db"
-
 def get_student_input():
     """Collect student data from user input."""
 
@@ -39,6 +39,7 @@ def main():
         print("4 - update entriez")
         print("5 - show bar graph of courses")
         print("6 - Deleting")
+        print("7. Convert database to Csv format")
         print("10 - exit")
 
         choice = input("Select option: ").strip()
@@ -84,11 +85,15 @@ def main():
 
             delete_student(student_id_partial=student_id_to_delete)
 
+        elif choice == "7":
+            convert_to_csv()
+
         elif choice == "10":
             sys.exit(0)
+
         else:
             print("Invalid option.")
 
 
 if __name__ == "__main__":
-    main()
+        main()
