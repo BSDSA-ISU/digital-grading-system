@@ -1,9 +1,9 @@
 # main.py
 import sys
-from utils.converter import convert_to_csv
+from utils.converter import convert_to_csv, convert_to_db
 from utils.DataScience import ShowCourses as showbar
 from utils.CRUD import setup_database, insert_student, delete_student, show_specific_student, ShowCol, update_student, find_students
-from utils.PredictGrade import predict_db, predict_db_tabulate
+from utils.PredictGrade import predict_db_tabulate
 DB_FILE = "student_grade.db"
 def get_student_input():
     """Collect student data from user input."""
@@ -87,6 +87,9 @@ def main():
 
         elif choice == "7":
             convert_to_csv()
+        
+        elif choice == "8":
+            convert_to_db()
 
         elif choice == "10":
             sys.exit(0)
